@@ -6,44 +6,47 @@ from lib import Lib
 
 HEADER = 1000
 SERVER = "192.168.8.101" # local ip
-PORT = 5050
+PORT = 9000
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-4'
 
 def main(argv):
 
 	print("Server set to ", ADDR)
-	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-	server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
+	server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	# server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	server.bind(ADDR)
-	server.listen()
 
 	while 1:
 		print("Server er klar.")
-		conn, addr = server.accept()
-		print("Socket accept", addr)
+		bytesAddrPair = server.recvfrom(HEADER)
+		msg = bytesAddrPair[0]
+		clientAddr = bytesAddrPair[1]
+		print("Message received", clientAddr, ":", msg.decode())
+		server.sendto(msg, clientAddr)
 
-		msg = conn.recv(HEADER)
-		print("Besked modtaget fra klient:", msg.decode())
+		if(msg.decode() == 'U'):
+			fileMsg = "uptime.txt"
+		elif(msg.decode() == 'L'):
+			fileMsg = "loadavg.txt"
 		
-		sendFile(msg.decode(), conn)
+		print("File to send:", fileMsg)
 
-		conn.close()
+		sendFile(fileMsg, clientAddr, server) # send file
 
-def sendFile(fileName, conn):
+
+def sendFile(fileName, clientAddr, server):
 	try:
 		msg = "File size: " + str(Lib.check_File_Exists(fileName))
-		conn.send(msg.encode())
+		server.sendto(msg.encode(), clientAddr)
 	except:
-		conn.send("File not found!".encode())
+		server.sendto("File not found!".encode(), clientAddr)
 
 	with open(fileName, "rb") as file:
 		data = file.read(HEADER)
 		print("Sending...")
 		while data:
-			conn.send(data)
+			server.sendto(data, clientAddr)
 			data = file.read(HEADER)
 	print("File sent.")
 

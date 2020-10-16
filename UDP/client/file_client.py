@@ -32,10 +32,10 @@ def main(argv):
 	data, addr = client.recvfrom(HEADER)
 	while data:
 		print(data.decode());
-		client.settimeout(2)
+		# client.settimeout(2)
 		data, addr = client.recvfrom(HEADER)
 		if not data:
-				break
+			break
 
 	print("File received.")
 

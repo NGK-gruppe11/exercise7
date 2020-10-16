@@ -24,19 +24,18 @@ def main(argv):
 
 	# receive file
 	if msgFromServer.decode() == 'U' or msgFromServer.decode() == 'u':
-		fileMsg = "/proc/uptime"
+		fileMsg = "uptime"
 	elif msgFromServer.decode() == 'L' or msgFromServer.decode() == 'l':
-		fileMsg = "/proc/loadavg"
+		fileMsg = "loadavg"
 
-	with open(fileMsg, "wb") as file:
-		print("Getting file...")
+	print("Getting file: ", fileMsg)
+	data, addr = client.recvfrom(HEADER)
+	while data:
+		print(data.decode());
+		client.settimeout(2)
 		data, addr = client.recvfrom(HEADER)
-		while data:
-			print(data.decode());
-			client.settimeout(2)
-			data, addr = client.recvfrom(HEADER)
 
-		print("File received.")
+	print("File received.")
 
 	client.close()
 

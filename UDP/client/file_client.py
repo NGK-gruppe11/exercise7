@@ -34,6 +34,8 @@ def main(argv):
 		print(data.decode());
 		client.settimeout(2)
 		data, addr = client.recvfrom(HEADER)
+		if not data:
+				break
 
 	print("File received.")
 

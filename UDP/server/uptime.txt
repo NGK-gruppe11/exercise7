@@ -1,2 +1,5 @@
-uptime file
-test
+     this
+     is
+     the
+     uptime
+     file

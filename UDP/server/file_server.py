@@ -5,16 +5,14 @@ import socket
 from lib import Lib
 
 HEADER = 1000
-SERVER = "192.168.8.101" # local ip
+SERVER = "192.168.199.137" # local ip
 PORT = 9000
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-4'
 
 def main(argv):
-
 	print("Server set to ", ADDR)
 	server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	# server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 	server.bind(ADDR)
 
 	while 1:
@@ -25,9 +23,9 @@ def main(argv):
 		print("Message received", clientAddr, ":", msg.decode())
 		server.sendto(msg, clientAddr)
 
-		if(msg.decode() == 'U'):
+		if msg.decode() == 'U' or msg.decode() == 'u':
 			fileMsg = "uptime.txt"
-		elif(msg.decode() == 'L'):
+		elif msg.decode() == 'L' or msg.decode() == 'l':
 			fileMsg = "loadavg.txt"
 		
 		print("File to send:", fileMsg)

@@ -5,7 +5,7 @@ import socket
 from lib import Lib
 
 HEADER = 1000
-SERVER = "192.168.8.101"
+SERVER = "192.168.199.137"
 PORT = 9000
 ADDR = (SERVER, PORT)
 
@@ -23,18 +23,18 @@ def main(argv):
 	print(msgFromServer.decode())
 
 	# receive file
-	if(msgFromServer.decode() == 'U'):
+	if msgFromServer.decode() == 'U' or msgFromServer.decode() == 'u':
 		fileMsg = "uptime.txt"
-	elif(msgFromServer.decode() == 'L'):
+	elif msgFromServer.decode() == 'L' or msgFromServer.decode() == 'l':
 		fileMsg = "loadavg.txt"
 
 	with open(fileMsg, "wb") as file:
 		print("Getting file...")
-		while True:
-			data = client.recvfrom(HEADER)
-			file.write(data)
-			if not data:
-				break
+		data, addr = client.recvfrom(HEADER)
+		while data:
+			print(data.decode());
+			client.settimeout(2)
+			data, addr = client.recvfrom(HEADER)
 
 		print("File received.")
 

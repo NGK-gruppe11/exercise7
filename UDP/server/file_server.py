@@ -24,9 +24,9 @@ def main(argv):
 		server.sendto(msg, clientAddr)
 
 		if msg.decode() == 'U' or msg.decode() == 'u':
-			fileMsg = "uptime.txt"
+			fileMsg = "/proc/uptime"
 		elif msg.decode() == 'L' or msg.decode() == 'l':
-			fileMsg = "loadavg.txt"
+			fileMsg = "/proc/loadavg"
 		
 		print("File to send:", fileMsg)
 

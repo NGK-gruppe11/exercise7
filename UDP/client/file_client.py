@@ -24,9 +24,9 @@ def main(argv):
 
 	# receive file
 	if msgFromServer.decode() == 'U' or msgFromServer.decode() == 'u':
-		fileMsg = "uptime.txt"
+		fileMsg = "/proc/uptime"
 	elif msgFromServer.decode() == 'L' or msgFromServer.decode() == 'l':
-		fileMsg = "loadavg.txt"
+		fileMsg = "/proc/loadavg"
 
 	with open(fileMsg, "wb") as file:
 		print("Getting file...")

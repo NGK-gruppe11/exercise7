@@ -19,7 +19,7 @@ def main(argv):
 		bytesAddrPair = server.recvfrom(HEADER) # modtag besked fra en klient
 		msg = bytesAddrPair[0] # index 0 indeholder selve besked
 		clientAddr = bytesAddrPair[1] # index 1 indeholder client addressen
-		print("Message received", clientAddr, ":", msg.decode()) # print addresse samt besked
+		print("Message received:", msg.decode()) # print besked
 		server.sendto(msg, clientAddr) # send besked retur som verification. klient addresse specificeres nu som argument
 
 		# hvis besked er 'u' sættes fil til uptime og hvis den er 'l' sættes den til loadavg

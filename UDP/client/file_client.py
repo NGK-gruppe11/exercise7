@@ -5,7 +5,7 @@ import socket
 from lib import Lib
 
 HEADER = 1000
-SERVER = "192.168.199.137"
+SERVER = "10.0.0.1"
 PORT = 9000
 ADDR = (SERVER, PORT)
 

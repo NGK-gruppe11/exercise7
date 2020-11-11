@@ -5,13 +5,12 @@ import socket
 from lib import Lib
 
 HEADER = 1000
-SERVER = "192.168.199.137" # local ip
+SERVER = ""
 PORT = 9000
 ADDR = (SERVER, PORT)
-FORMAT = 'utf-4'
 
 def main(argv):
-	print("Server set to ", ADDR)
+	print("Server set to ", PORT)
 	server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # setup server som ipv4 og UDP
 	server.bind(ADDR) # find adresse til server
 
